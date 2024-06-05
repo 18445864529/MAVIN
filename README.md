@@ -1,4 +1,5 @@
-<h1 style="text-align: center;">MAVIN: Multi-Action Video Generation with Diffusion Models via Transition Video Infilling</h1>
+<h1 style="text-align: center;"><a href="https://arxiv.org/abs/2405.18003">MAVIN: Multi-Action Video Generation with Diffusion Models via Transition Video Infilling</a></h1>
+
 Codes will be released here.
 
 ## Framework
