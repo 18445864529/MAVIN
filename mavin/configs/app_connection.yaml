@@ -1,0 +1,52 @@
+pretrained_model_path: "/data/a/bowenz/models/text-to-video-ms-1.7b"
+output_root: "/data/a/bowenz/generative-models/mavin/outputs/connect"
+cached_latent_dir: "/data/a/bowenz/generative-models/mavin/outputs/cached_latents"
+experiment_name: "320_28_1018_cond0_SC3_horse_motionselect0.2fps8_motionemb1e-5"
+#experiment_name: "test"
+
+
+seed: 64
+
+
+validation_data:
+  video_root: "mavin/data/connection_videos/eatrun_b"
+  prompt: "smooth and natural tiger movement"
+  width: 256
+  height: 256
+  num_frames: -1
+  num_inference_steps: 50
+  guidance_scale: 9.0
+  f_refine_v1: 6
+  f_refine_v2: 6
+  shared_noise: false
+  use_gfm: true
+  from_boundary: true
+  overwrite: true
+  dir1: "/data/a/bowenz/generative-models/mavin/app_connect_dir/input/2_opening"
+  dir2: "/data/a/bowenz/generative-models/mavin/app_connect_dir/input/2_turning"
+
+inference_output_dir: "/data/a/bowenz/generative-models/mavin/app_connect_dir/output/tiger2"
+
+
+user_model_config:  # additional config of UNet that will add to it or overwrite the default config
+  cross_image_condition: true
+  use_sc_attention: false
+
+frameinit_kwargs:
+  enable: true
+  camera_motion: null
+  noise_level: 999
+  filter_params:
+    method: 'gaussian'
+    d_s: 0.4
+    d_t: 0.4
+    lamb: 0.05
+
+
+
+#resume_from_checkpoint: "/data/a/bowenz/generative-models/mavin/outputs/tiger_connect/05-07_01-04_final_dual_length_NEWNEWsample_sr2/checkpoints/checkpoint-28000"
+#resume_from_checkpoint: "/data/a/bowenz/generative-models/mavin/outputs/pure_connect/05-06_00-50_final_dual_length_55sample_sr2_motionsel1_noposnoaug/checkpoints/checkpoint-32000"
+resume_from_checkpoint: "/data/a/bowenz/generative-models/mavin/outputs/tiger_connect/05-08_16-54_final_dual_length_55sample_sr2+linear12/checkpoints/checkpoint-36000"
+keep_config: True
+
+

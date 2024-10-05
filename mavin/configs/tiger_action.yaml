@@ -1,0 +1,71 @@
+pretrained_model_path: "/data/a/bowenz/models/text-to-video-ms-1.7b"
+output_root: "/data/a/bowenz/generative-models/mavin/unified_model_output/tiger"
+cached_latent_dir: "/data/a/bowenz/generative-models/mavin/outputs/cached_latents"
+experiment_name: "f16hw256sr3_excludeLicking_randsr"
+
+train_data:
+  video_root:
+    - "/data/a/bowenz/generative-models/mavin/data/tiger_action/tiger licking"
+    - "/data/a/bowenz/generative-models/mavin/data/tiger_action/tiger opening mouth"
+    - "/data/a/bowenz/generative-models/mavin/data/tiger_action/tiger turning head"
+    - "/data/a/bowenz/generative-models/mavin/data/tiger_action/tiger walking"
+  prompt:
+    - "tiger is licking"
+    - "tiger is opening mouth"
+    - "tiger is turning head"
+    - "tiger is walking"
+  width: 256
+  height: 256
+  use_bucketing: False
+  n_sample_frames: 16
+  sample_frame_rate: 3
+  fps: null
+  use_random_frame_rate: True
+  tokenizer_max_length: 10  # disabled for now, will not use any padding
+  do_flip: True
+  random_condition_frame: false
+
+validation_data:
+  validate_in_train: True  # set this to false to disable validation during training
+  prompt: "rjes"  # default to training prompt if not provided
+#  prompt: "a horse is standing"  # default to training prompt if not provided
+  width: 256
+  height: 256
+  num_frames: 16
+  num_inference_steps: 50
+  guidance_scale: 9.0
+#  starter_image_path: "/data/a/bowenz/generative-models/mavin/data/quick_test/22.png"
+  shared_noise: true
+#  data_dir: "/data/a/bowenz/generative-models/mavin/data/tact"
+  data_dir: "/data/a/bowenz/generative-models/mavin/data/tact_body"
+
+learning_rate: 5e-6
+train_batch_size: 1
+max_train_steps: 40000
+checkpointing_steps: 1000
+validation_steps: 1000
+lr_scheduler: "constant"
+
+seed: 64
+
+
+trainable_modules: "tempconv+allatt"  # choose from "tempatt", "tempconv", "tempcross", "spacross", "allatt", and "adpt", or specify names
+image_conditioning: true
+
+user_model_config:  # additional config of UNet that will add to it or overwrite the default config
+  cross_image_condition: True
+  use_sc_attention: false
+
+frameinit_kwargs:
+  enable: true
+  camera_motion: null
+  noise_level: 850
+  filter_params:
+    method: 'gaussian'
+    d_s: 0.25
+    d_t: 0.25
+
+#inference_only: True
+#inference_output_dir: './mavin/inference_outputs/rjes'
+#resume_from_checkpoint: "/data/a/bowenz/generative-models/mavin/unified_model_output/tiger/04-22_13-47_f16hw256sr3/checkpoints/checkpoint-9000"
+#keep_config: True

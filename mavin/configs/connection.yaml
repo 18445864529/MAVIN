@@ -1,0 +1,70 @@
+pretrained_model_path: "/data/a/bowenz/models/text-to-video-ms-1.7b"
+output_root: "/data/a/bowenz/MAVIN/exp_outputs"
+experiment_name: "final_mavin_horse"
+
+boundary_guidance: true
+
+
+user_model_config:  # additional config of UNet that will add to it or overwrite the default config
+  use_safetensors: false  # false to use modelscope
+  use_sc_attention: false
+  center_pos_enc: false
+  augmented_attn_field: false  # turned off for attn2 always
+
+
+train_data:
+  motion_dir: "/data/a/bowenz/MAVIN/data/train/motion_data"
+  motion_file_name: horse_flow_256.json
+  make_dataset: false
+  video_root:
+    - "/data/a/bowenz/MAVIN/data/train/short_vids"
+    - "/data/a/bowenz/MAVIN/data/train/long_vids"
+#    - "/data/a/bowenz/MAVIN/data/train/tiger_video"
+  prompt: "horse movement"
+  width: 256
+  height: 256
+  n_sample_frames: 32
+  sample_frame_rate: 2
+  do_flip: true
+  prediction_start: 10
+  prediction_end: 22
+  fps: 8
+  random_mask: true
+  length_emb: true
+
+validation_data:
+  width: 256
+  height: 256
+  num_frames: 32
+  num_inference_steps: 50
+  guidance_scale: 9.0
+  prediction_start: 10
+  prediction_end: 22
+  shared_noise: true
+  use_gfm: true
+  test_root: "/data/a/bowenz/MAVIN/data/test/manual_horse"
+
+learning_rate: 5e-6
+train_batch_size: 1
+max_train_steps: 40000
+checkpointing_steps: 2000
+validation_steps: 2000
+lr_scheduler: "constant"
+
+seed: 64
+
+trainable_modules: "tempconv+allatt"  # choose from "tempatt", "tempconv", "tempcross", "spacross", "allatt", and "adpt", or specify names
+
+frameinit_kwargs:
+  enable: true
+  camera_motion: null
+  noise_level: 999
+  filter_params:
+    method: 'gaussian'
+    d_s: 0.6
+    d_t: 0.6
+    lamb: 0.1
+
+# resume_from_checkpoint: ""
+# keep_config: True
+
